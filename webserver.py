@@ -119,8 +119,8 @@ def public_log():
     return render_template("publiclog.html")
 
 @app.route('/get_log')
-@basic_auth.required
 def get_log():
+
     return open("log", "r").read()
 
 def chunksize(size, filename):
