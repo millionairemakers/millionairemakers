@@ -1,0 +1,6 @@
+# TODO
+
+- Add README (Mention that due to the heavy traffic flowing in, it might be beneficial to setup cloud flare caching
+- Remove auto refresh from public log (not needed, causes enormous amount of unnecessary traffic)
+- Fix public log to serve assets from a CDN instead of our server 
+- Add CherryPy as the server, while keeping Flask as the framework
