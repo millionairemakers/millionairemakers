@@ -4,3 +4,4 @@
 - Remove auto refresh from public log (not needed, causes enormous amount of unnecessary traffic)
 - Fix public log to serve assets from a CDN instead of our server 
 - Add CherryPy as the server, while keeping Flask as the framework
+- Add check for Drawing threads started earlier and warn the user/stop them before beginning a new one
