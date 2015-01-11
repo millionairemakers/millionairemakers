@@ -22,6 +22,10 @@ import praw
 import configuration
 
 app = Flask(__name__)
+
+app.config['BASIC_AUTH_USERNAME'] = configuration.BASIC_AUTH_USERNAME
+app.config['BASIC_AUTH_PASSWORD'] = configuration.BASIC_AUTH_PASSWORD
+
 basic_auth = BasicAuth(app)
 
 sys.stdout = open(configuration.LOG_FILE_NAME, "w+", 0)
@@ -43,14 +47,13 @@ def check_username():
     info = r.get_access_information(code)
     user = r.get_me()
 
-    if configuration.LIMIT_MODERATION:
-        if user.name == configuration.MODERATOR_USERNAME:
-            return redirect(url_for('select_thread'))
+    if not configuration.LIMIT_MODERATION or user.name == configuration.MODERATOR_USERNAME:
+        return redirect(url_for('select_thread'))
 
     auth_link = r.get_authorize_url('UniqueKey',
                                     refreshable=True)
 
-    return render_template("checkusername.html", username=user.name, auth_link=auth_link)
+    return render_template("checkusername.html", username=user.name, moderator=configuration.MODERATOR_USERNAME, auth_link=auth_link)
 
 
 @app.route('/select_thread')
@@ -59,7 +62,7 @@ def select_thread():
     user = r.get_me()
 
     if configuration.LIMIT_MODERATION:
-        if user.name == configuration.MODERATOR_USERNAME:
+        if user.name != configuration.MODERATOR_USERNAME:
             return redirect(url_for('homepage'))
 
     submissions = user.get_submitted(limit=None)
@@ -74,7 +77,7 @@ def confirm_thread():
     user = r.get_me()
 
     if configuration.LIMIT_MODERATION:
-        if user.name == configuration.MODERATOR_USERNAME:
+        if user.name != configuration.MODERATOR_USERNAME:
             return redirect(url_for('homepage'))
 
     submission_id = request.args.get('submission_id', '')
@@ -100,7 +103,7 @@ def start_drawing_process():
     user = r.get_me()
 
     if configuration.LIMIT_MODERATION:
-        if user.name == configuration.MODERATOR_USERNAME:
+        if user.name != configuration.MODERATOR_USERNAME:
             return redirect(url_for('homepage'))
 
     submission_id = request.args.get('submission_id', '')
@@ -233,9 +236,9 @@ class DrawingThread(threading.Thread):
 
         print ""
 
-        print "Waiting for 3 confirmations..."
-
-        print ""
+        if configuration.CONFIRMATION_BLOCKS != 0:
+            print "Waiting for " + str(configuration.CONFIRMATION_BLOCKS) + " confirmations..."
+            print ""
 
         block_count = 0
 
@@ -254,9 +257,11 @@ class DrawingThread(threading.Thread):
             except WebSocketConnectionClosedException:
                 print "Connection Closed. Trying again..."
 
-        print ""
+        if configuration.CONFIRMATION_BLOCKS != 0:
+            print ""
+            print "Confirmation completed..."
+            print ""
 
-        print "Confirmation completed..."
         print "Retrieving height " + str(height)
 
         print ""
@@ -281,8 +286,14 @@ class DrawingThread(threading.Thread):
 
         print ""
 
-        comment = requests.get(
-            "https://www.reddit.com/comments/" + self.submission_id + ".json?comment=" + winner_id).json()
+        while 1:
+            comment = requests.get(
+                "https://www.reddit.com/comments/" + self.submission_id + ".json?comment=" + winner_id).json()
+
+            if type(comment) is list:
+                break
+
+            sleep(10)
 
         winner = comment[1]['data']['children'][0]['data']['author']
 
