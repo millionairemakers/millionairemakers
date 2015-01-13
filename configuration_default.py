@@ -44,11 +44,4 @@ WEB_SERVER_PORT = 65010
 DEBUG = False
 
 # Log file name
-LOG_FILE_NAME = 'log'
-
-
-
-
-
-
-
+LOG_FILE_NAME = 'webserver.log'
