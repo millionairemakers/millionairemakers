@@ -2,7 +2,7 @@ from time import sleep, strftime, gmtime
 import threading
 import hashlib
 
-from flask import json
+import json
 import requests
 import dropbox
 from websocket import create_connection, WebSocketConnectionClosedException
