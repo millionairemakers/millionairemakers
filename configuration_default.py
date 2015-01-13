@@ -45,10 +45,3 @@ DEBUG = False
 
 # Log file name
 LOG_FILE_NAME = 'webserver.log'
-
-
-
-
-
-
-
