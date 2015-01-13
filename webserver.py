@@ -8,10 +8,10 @@ import sys
 
 from flask import Flask, request, render_template, redirect, url_for
 from flask.ext.basicauth import BasicAuth
-import praw
-
-import configuration
 from drawing import DrawingThread
+
+import praw
+import configuration
 
 
 app = Flask(__name__)
