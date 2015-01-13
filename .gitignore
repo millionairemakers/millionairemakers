@@ -58,3 +58,6 @@ target/
 
 # Configuration file
 configuration.py
+
+# IntelliJ/PyCharm
+.idea
