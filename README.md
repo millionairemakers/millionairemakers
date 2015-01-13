@@ -10,6 +10,7 @@ Millionaire Makers Picking Platform
 # Dependencies
  - [PRAW](https://github.com/praw-dev/praw)
  - [Flask](http://flask.pocoo.org/)
+ - [Flask-BasicAuth](http://flask-basicauth.readthedocs.org/en/latest/)
  - [Dropbox](https://www.dropbox.com/developers/core/sdks/python)
  - [websocket-client](https://github.com/liris/websocket-client)
  - [requests](http://docs.python-requests.org/en/latest/)
