@@ -37,6 +37,9 @@ WINNER_BLOCK = 3
 # Each block ~ 10 minutes
 CONFIRMATION_BLOCKS = 3
 
+# Web server host
+WEB_SERVER_HOST = "0.0.0.0"
+
 # Web server port
 WEB_SERVER_PORT = 65010
 
