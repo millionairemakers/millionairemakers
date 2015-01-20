@@ -34,7 +34,7 @@
 
       <div class="starter-template">
         <p class="lead">Public Log</p>
-          <pre style="text-align: left" id="log"></pre>
+          <pre style="text-align: left" id="log">{{log}}</pre>
       </div>
 
     </div><!-- /.container -->
@@ -47,13 +47,13 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
 
 	<script type="text/javascript">
-        (function worker() {
-            $.get('/get_log', function(data) {
-                // Now that we've completed the request schedule the next one.
-                $('#log').html(data);
-                setTimeout(worker, 5000);
-            });
-        })();
+//        (function worker() {
+//            $.get('/get_log', function(data) {
+//                // Now that we've completed the request schedule the next one.
+//                $('#log').html(data);
+//                setTimeout(worker, 5000);
+//            });
+//        })();
     </script>
 
 </body></html>

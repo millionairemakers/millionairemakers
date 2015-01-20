@@ -59,5 +59,8 @@ target/
 # Configuration file
 configuration.py
 
+# Comment IDs
+comment_ids
+
 # IntelliJ/PyCharm
 .idea

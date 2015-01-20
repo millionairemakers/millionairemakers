@@ -1,7 +1,6 @@
 from time import sleep, strftime, gmtime
 import threading
 import hashlib
-
 import json
 import requests
 import dropbox
@@ -51,7 +50,7 @@ def find_block(total_count):
             ws.close()
 
 
-class DrawingThread(threading.Thread):
+class DrawingThread(threading.Thread, ):
     def __init__(self, submission_id):
         super(DrawingThread, self).__init__()
         self.submission_id = submission_id
@@ -83,7 +82,7 @@ class DrawingThread(threading.Thread):
 
         with open('comment_ids', 'rb') as f_comment_ids:
             client = dropbox.client.DropboxClient(configuration.DROPBOX_ACCESS_TOKEN)
-            comment_ids_response = client.put_file('/comment_ids-' + strftime("%d-%b-%Y", gmtime()) + '.txt',
+            comment_ids_response = client.put_file('/comment_ids-' + strftime("%d-%b-%Y-%H-%M-%S", gmtime()) + '.txt',
                                                    f_comment_ids)
             comment_ids_link = client.share(comment_ids_response['path'], short_url=False)
 

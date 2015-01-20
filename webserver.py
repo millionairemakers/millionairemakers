@@ -5,6 +5,7 @@
 #
 # Contact /u/minlite for comments/suggestions
 import sys
+import time
 
 from flask import Flask, request, render_template, redirect, url_for
 from flask.ext.basicauth import BasicAuth
@@ -23,6 +24,8 @@ basic_auth = BasicAuth(app)
 
 sys.stdout = open(configuration.LOG_FILE_NAME, "w+", 0)
 
+log = ""
+last_read = 0
 
 @app.route('/')
 @basic_auth.required
@@ -107,19 +110,35 @@ def start_drawing_process():
     drawing_thread = DrawingThread(submission_id)
     drawing_thread.start()
 
-    return render_template("startdrawingprocess.html", username="")
+    return render_template("startdrawingprocess.html", username=user.name)
 
 
 @app.route('/public_log')
 def public_log():
-    return render_template("publiclog.html")
+    return render_template("publiclog.html", log=get_log())
 
 
 @app.route('/get_log')
-@basic_auth.required
 def get_log():
+    global last_read
+    global log
+    if (time.time() - last_read) > configuration.LOG_CACHE_LIFETIME:
+        last_read = time.time()
+        with open(configuration.LOG_FILE_NAME, "r") as f:
+            log = f.read()
+            return log
+    else:
+        return log
+
+
+@app.route('/get_immediate_log')
+@basic_auth.required
+def get_immediate_log():
+    global log
     with open(configuration.LOG_FILE_NAME, "r") as f:
-        return f.read()
+        log = f.read()
+        return log
+
 
 
 if __name__ == '__main__':

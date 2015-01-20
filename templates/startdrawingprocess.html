@@ -54,7 +54,7 @@
 
     <script type="text/javascript">
         (function worker() {
-            $.get('/get_log', function(data) {
+            $.get('/get_immediate_log', function(data) {
                 // Now that we've completed the request schedule the next one.
                 $('#log').html(data);
                 setTimeout(worker, 5000);

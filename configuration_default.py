@@ -31,7 +31,7 @@ MODERATOR_USERNAME = ''
 
 # Winner block
 # Each block ~ 10 minutes
-WINNER_BLOCK = 6
+WINNER_BLOCK = 3
 
 # Number of confirmation blocks
 # Each block ~ 10 minutes
@@ -45,3 +45,6 @@ DEBUG = False
 
 # Log file name
 LOG_FILE_NAME = 'webserver.log'
+
+# Log cache lifetime in seconds
+LOG_CACHE_LIFETIME = 30
