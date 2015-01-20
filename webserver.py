@@ -148,4 +148,4 @@ if __name__ == '__main__':
     r.set_oauth_app_info(configuration.REDDIT_CLIENT_ID, configuration.REDDIT_CLIENT_SECRET,
                          configuration.REDDIT_REDIRECT_URI)
 
-    app.run(debug=configuration.DEBUG, port=configuration.WEB_SERVER_PORT)
+    app.run(debug=configuration.DEBUG, host=configuration.WEB_SERVER_HOST, port=configuration.WEB_SERVER_PORT)
