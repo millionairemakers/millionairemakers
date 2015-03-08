@@ -51,9 +51,10 @@ def find_block(total_count):
 
 
 class DrawingThread(threading.Thread, ):
-    def __init__(self, submission_id):
+    def __init__(self, submission_id, cutoff_comment_id):
         super(DrawingThread, self).__init__()
         self.submission_id = submission_id
+        self.cutoff_comment_id = cutoff_comment_id
 
     def run(self):
         print "Getting comment ids...\n"
@@ -74,7 +75,10 @@ class DrawingThread(threading.Thread, ):
                     comment_ids.append(child['data']['id'])
                 elif child['kind'] == 'more':
                     # More comments
-                    comment_ids[len(comment_ids):] = child['data']['children']
+                    for more_child in child['data']['children']:
+                        comment_ids.append(more_child)
+                        if more_child == self.cutoff_comment_id:
+                            break
 
         with open('comment_ids', 'w') as f_comment_ids:
             for comment_id in comment_ids:

@@ -27,6 +27,9 @@ sys.stdout = open(configuration.LOG_FILE_NAME, "w+", 0)
 log = ""
 last_read = 0
 
+# Holds a reference to the drawing thread so it won't be executed twice accidentally
+drawing_thread = False
+
 @app.route('/')
 @basic_auth.required
 def homepage():
@@ -77,13 +80,14 @@ def confirm_thread():
             return redirect(url_for('homepage'))
 
     submission_id = request.args.get('submission_id', '')
+    cutoff_comment_id = request.args.get('cutoff_comment_id', '')
 
     if submission_id == '':
         return redirect(url_for('select_thread'))
 
     submission = r.get_submission(submission_id=submission_id)
 
-    yes_link = url_for('start_drawing_process') + "?submission_id=" + submission_id
+    yes_link = url_for('start_drawing_process') + "?submission_id=" + submission_id + "&cutoff_comment_id=" + cutoff_comment_id
     no_link = url_for('select_thread')
 
     return render_template("confirmthread.html", username=user.name,
@@ -96,6 +100,8 @@ def confirm_thread():
 @app.route('/start_drawing_process')
 @basic_auth.required
 def start_drawing_process():
+    global drawing_thread
+
     user = r.get_me()
 
     if configuration.LIMIT_MODERATION:
@@ -103,19 +109,24 @@ def start_drawing_process():
             return redirect(url_for('homepage'))
 
     submission_id = request.args.get('submission_id', '')
+    cutoff_comment_id = request.args.get('cutoff_comment_id', '')
 
     if submission_id == '':
         return redirect(url_for('select_thread'))
-    # Start the drawing process
-    drawing_thread = DrawingThread(submission_id)
-    drawing_thread.start()
+
+    # Check if the drawing thread has not been started yet
+    if not drawing_thread:
+        # Start the drawing process
+        drawing_thread = DrawingThread(submission_id=submission_id, cutoff_comment_id=cutoff_comment_id)
+        drawing_thread.start()
 
     return render_template("startdrawingprocess.html", username=user.name)
 
 
 @app.route('/public_log')
+@basic_auth.required
 def public_log():
-    return render_template("publiclog.html", log=get_log())
+    return render_template("immediatelog.html", log=get_immediate_log())
 
 
 @app.route('/get_log')
