@@ -62,5 +62,8 @@ configuration.py
 # Comment IDs
 comment_ids
 
+# Nohup output
+nohup.out
+
 # IntelliJ/PyCharm
 .idea
