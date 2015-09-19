@@ -61,11 +61,11 @@ class DrawingThread(threading.Thread, ):
 
         comment_ids = []
         while 1:
-            response = requests.get("http://www.reddit.com/comments/" + self.submission_id + ".json?sort=old")
+            response = requests.get("https://www.reddit.com/comments/" + self.submission_id + ".json?sort=old")
             thread = response.json()
             if type(thread) is list:
                 break
-            sleep(10)
+            sleep(30)
 
         children = thread[1]['data']['children']
 
@@ -121,7 +121,7 @@ class DrawingThread(threading.Thread, ):
                 "https://www.reddit.com/comments/" + self.submission_id + ".json?comment=" + winner_id).json()
             if type(comment) is list:
                 break
-            sleep(10)
+            sleep(30)
 
         winner = comment[1]['data']['children'][0]['data']['author']
         print "Winner is: " + winner
