@@ -33,7 +33,7 @@ drawing_thread = False
 @app.route('/')
 @basic_auth.required
 def homepage():
-    auth_link = r.get_authorize_url('UniqueKey', refreshable=True)
+    auth_link = r.get_authorize_url('uniqueKey', 'identity history', False)
     return render_template("homepage.html", auth_link=auth_link)
 
 
@@ -48,8 +48,7 @@ def check_username():
     if not configuration.LIMIT_MODERATION or user.name == configuration.MODERATOR_USERNAME:
         return redirect(url_for('select_thread'))
 
-    auth_link = r.get_authorize_url('UniqueKey',
-                                    refreshable=True)
+    auth_link = r.get_authorize_url('uniqueKey', 'identity history', False)
 
     return render_template("checkusername.html", username=user.name, moderator=configuration.MODERATOR_USERNAME,
                            auth_link=auth_link)

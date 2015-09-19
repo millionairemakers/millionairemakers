@@ -45,8 +45,7 @@
     <!-- Placed at the end of the document so the pages load faster -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
-
-	<script type="text/javascript">
+    <script type="text/javascript">
         (function worker() {
             $.get('/get_immediate_log', function(data) {
                 // Now that we've completed the request schedule the next one.
@@ -54,6 +53,12 @@
                 setTimeout(worker, 5000);
             });
         })();
+	
+	function scrollDown() {
+	    window.scrollTo(0,document.body.scrollHeight);
+	}
+
+	setInterval(scrollDown, 1000);
     </script>
 
 </body></html>

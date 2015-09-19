@@ -61,7 +61,7 @@ class DrawingThread(threading.Thread, ):
 
         comment_ids = []
         while 1:
-            response = requests.get("https://www.reddit.com/comments/" + self.submission_id + ".json?sort=old")
+            response = requests.get("http://www.reddit.com/comments/" + self.submission_id + ".json?sort=old")
             thread = response.json()
             if type(thread) is list:
                 break
