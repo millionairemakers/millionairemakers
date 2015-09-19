@@ -1,7 +1,7 @@
 # !/bin/sh
 echo "Installing MillionaireMakers dependencies..."
 echo "Installing setuptools..."
-# wget https://bootstrap.pypa.io/ez_setup.py -O - | sudo python
+wget https://bootstrap.pypa.io/ez_setup.py -O - | sudo python
 echo "Checking for praw installation..."
 pip list | grep praw > /dev/null
 if [ $? -eq 0 ]

@@ -3,9 +3,12 @@ Millionaire Makers Picking Platform
 
 # Installation
 1. Clone repo by using `git clone https://github.com/millionairemakers/millionairemakers.git`
-2. Copy `configuration_default.py` into `configuration.py`
-3. Enter required credentials into `configuration.py`
-4. Run the program by using `python webserver.py`
+2. Install dependencies by running `./install_dependencies.sh`
+3. Copy `configuration_default.py` into `configuration.py`
+4. Enter required credentials into `configuration.py`
+5. Run the program by using `./start_all.sh` 
+
+**[Installation Tutorial](https://www.youtube.com/watch?v=y5pjVZrmMbE)**
 
 # Dependencies
  - [PRAW](https://github.com/praw-dev/praw)
@@ -16,7 +19,7 @@ Millionaire Makers Picking Platform
  - [requests](http://docs.python-requests.org/en/latest/)
  
 # License
-Copyright 2014 Millionaire Makers
+Copyright 2015 Millionaire Makers
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
